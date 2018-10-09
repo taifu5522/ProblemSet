@@ -67,8 +67,6 @@ function evaluate(expression){
     }else if(str === '('){
       // 只需要判断左小括号的情况就可以
       // 因为有小括号的情况需要在循环内进行边界判断
-      const leftStack = new Stack();
-      const rightStack = new Stack();
       let _expression = '';
       let _str = expression.charAt(++i);
       while (_str != ')') {
