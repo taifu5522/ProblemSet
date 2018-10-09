@@ -1,0 +1,120 @@
+<script>
+class Stack {
+  constructor(){
+    this.datas = []
+  }
+  add(data){
+    this.datas.push(data);
+  }
+  get(){
+    return this.datas.pop();
+  }
+  get count(){
+    return this.datas.length;
+  }
+}
+
+class Oprator {
+  constructor(oprator, weights){
+    this.oprator = oprator;
+    this.weights = weights || 1;
+  }
+}
+
+const oprators = {
+  '+':{
+    op:new Oprator('+', 1),
+    eval:function(a,b){
+      return parseInt(a) + parseInt(b);
+    }
+  },
+  '-':{
+    op:new Oprator('-', 1),
+    eval:function(a,b){
+      return parseInt(a) - parseInt(b);
+    }
+  },
+  '*':{
+    op:new Oprator('*', 2),
+    eval:function(a,b){
+      return parseInt(a) * parseInt(b);
+    }
+  },
+  '/':{
+    op:new Oprator('/', 2),
+    eval:function(a,b){
+      return parseInt(a) / parseInt(b);
+    }
+  },
+}
+
+const numReg = /[0-9]/;
+
+// 为了简化，假设表达式只有整数的加减乘除和小括号的情况，且小括号内无嵌套小括号
+function evaluate(expression){
+  let i = 0, len = expression.length;
+  const numStack = new Stack(), opratorStack = new Stack();
+  while (i < len){
+    const str = expression.charAt(i);
+    if(oprators[str]){
+      if(!opratorStack.count){
+        opratorStack.add(str);
+        ++i;
+        continue;
+      }
+      const topOprator = opratorStack.get();
+      opratorComparison(numStack, opratorStack, topOprator, str)
+    }else if(str === '('){
+      // 只需要判断左小括号的情况就可以
+      // 因为有小括号的情况需要在循环内进行边界判断
+      const leftStack = new Stack();
+      const rightStack = new Stack();
+      let _expression = '';
+      let _str = expression.charAt(++i);
+      while (_str != ')') {
+        _expression += _str;
+        _str = expression.charAt(++i);
+      }
+      // 递归调用
+      const result = evaluate(_expression);
+      numStack.add(result);
+    }else{
+      let num = str;
+      let _str = expression.charAt(++i);
+      // 把连着的数字取出来
+      while(numReg.test(_str)){
+        num += _str;
+        _str = expression.charAt(++i);
+      }
+      numStack.add(num);
+      continue;
+    }
+    ++i;
+  }
+  const one = numStack.get();
+  const tow = numStack.get();
+  const lastOprator = opratorStack.get();
+  return oprators[lastOprator].eval(tow, one);
+}
+
+function opratorComparison(numStack, opratorStack, topOprator, nowOprator){
+  if(!topOprator){
+    opratorStack.add(nowOprator)
+    return;
+  }
+  if(oprators[nowOprator].op.weights > oprators[topOprator].op.weights){
+    opratorStack.add(topOprator)
+    opratorStack.add(nowOprator)
+  }else{
+    const topNumOne = numStack.get();
+    const topNumTow = numStack.get();
+    // 需要特别注意的是，两个变量的传入顺序是相反的，因为栈的先入后出的特性，如果按顺序传入会导致相反的结果
+    // 比如1 - 2的入栈顺序是1-2，而出栈顺序是2-1，如果直接按照出栈顺序传入就会变成2-1而不是1-2
+    const result = oprators[topOprator].eval(topNumTow, topNumOne);
+    numStack.add(result);
+    opratorComparison(numStack, opratorStack, opratorStack.get(), nowOprator);
+  }
+}
+
+console.log(evaluate('1+2*(4-2)-5+8'));
+</script>
