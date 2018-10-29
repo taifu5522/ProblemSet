@@ -1,0 +1,29 @@
+<script>
+
+const arr = [22, 5, 11, 41, 45, 26, 29, 10, 7, 8, 30, 27, 42, 43, 40];
+
+function bucketSort(a, num){
+  if(a.length <= 1) return a;
+  let len = a.length, buckets = [], result = [], min = max = a[0], space, n = 0;
+  let index = Math.floor(len / num);
+  while(index < 2){
+    num--;
+    index = Math.floor(len / num);
+  }
+
+  for(let i = 1; i<len; i++){
+    min = min <= a[i] ? min : a[i];
+    max = max >= a[i] ? max : a[i];
+  }
+
+  space = (max - min + 1) / num;
+  console.log(space)
+
+}
+
+// var arr=[3,44,38,5,47,15,36,26,27,2,46,4,19,50,48];
+console.log(bucketSort(arr,4));
+
+
+
+</script>

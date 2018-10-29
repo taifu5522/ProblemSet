@@ -1,0 +1,50 @@
+<script>
+  class Link {
+    constructor(data, next){
+      this.data = data;
+      this.next = next;
+    }
+  }
+  
+  class Stack {
+    constructor(){
+      this.datas = []
+    }
+    add(data){
+      this.datas.push(data);
+    }
+    get(){
+      return this.datas.pop();
+    }
+    get count(){
+      return this.datas.length;
+    }
+  }
+  
+  const a = new Link('a', null);
+  let next = a.next = new Link('b', null);
+  next = next.next = new Link('c', null);
+  next = next.next = new Link('b', null);
+  next = next.next = new Link('a', null);
+  
+  function isRev(link){
+    if(!link.data || !link.next) return false;
+    const cache = new Stack();
+    let _link = link
+    let i = 0;
+    while (_link) {
+      cache.add(_link.data);
+      _link = _link.next;
+    }
+    while (link) {
+      const data  = cache.get()
+      if(link.data !== data){
+        return false;
+      }
+      link = link.next;
+    }
+    return true;
+  }
+  
+  console.log(isRev(a));
+</script>

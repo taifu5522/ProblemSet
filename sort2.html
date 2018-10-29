@@ -1,0 +1,168 @@
+<script>
+
+/*
+var merge = (left, right) => {
+    var result = [],
+        il = 0,
+        ir = 0;
+    while (il < left.length && ir < right.length) {
+      if (left[il] < right[ir]) {
+        result.push(left[il++]);
+      } else {
+        result.push(right[ir++]);
+      }
+    }
+
+    while (il < left.length) {
+        result.push(left[il++]);
+    }
+
+    while (ir < right.length) {
+        result.push(right[ir++]);
+    }
+
+    return result;
+};
+var mergeSortRec = arr => {
+    var length = arr.length;
+    if (length === 1) {
+        return arr;
+    }
+    var mid = Math.floor(length/2),
+        left = arr.slice(0, mid),
+        right = arr.slice(mid, length);
+    return merge(mergeSortRec(left), mergeSortRec(right));
+}
+
+const arr = [11, 8, 3, 9, 7, 1, 2, 5]
+console.log(mergeSortRec(arr));
+// console.log(arr)
+
+function quickSort(a, p, r){
+  quickSortInternally(a, p || 0, r || a.length - 1);
+}
+
+function quickSortInternally(a, p, r){
+  if(p >= r) return;
+
+  let q = partition(a, p, r);
+  quickSortInternally(a, p, q-1);
+  quickSortInternally(a, q+1, r);
+}
+
+function partition(a, p, r){
+  let pivot = a[r];
+  let i = p;
+  for(let j = p; j< r; ++j){
+    if(a[j] < pivot){
+      let tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+      ++i;
+    }
+  }
+
+  let tmp = a[i];
+  a[i] = a[r];
+  a[r] = tmp;
+
+  console.log(`i= ${i}`);
+  return i;
+}
+
+const b = [...arr];
+quickSort(b, 1, b.length - 2);
+console.log(b)
+*/
+
+/*
+function mergeSort(a, p = 0, n = a.length){
+  mergeSortC(a, p, n - 1)
+}
+
+function mergeSortC(a, p, r){
+  if(p >= r) return;
+
+  const q = Math.floor((p+r) / 2);
+
+  mergeSortC(a, p, q)
+  mergeSortC(a, q + 1, r);
+  merge(a, p, q, r);
+}
+
+function merge(a, p, q, r){
+  let i = p, j = q+1, tmp = [];
+
+  while(i <= q && j <= r){
+    if(a[i] <= a[j]){
+      tmp.push(a[i++]);
+    }else{
+      tmp.push(a[j++]);
+    }
+  }
+
+  let start = i, end = q
+  if(j <= r){
+    start = j, end = r;
+  }
+
+  while(start <= end){
+    tmp.push(a[start++]);
+  }
+
+  for(let i=0;i<=r-p;++i){
+    a[p+i] = tmp[i];
+  }
+}
+
+const testArr = []
+let i = 0
+while (i < 100) {
+    testArr.push(Math.floor(Math.random() * 1000))
+    i++
+}
+
+mergeSort(testArr)
+console.log(testArr)
+*/
+
+function quickSort(a, p = 0, n = a.length){
+  quickSortFn(a, p, n-1)
+}
+
+function quickSortFn(a, p, r){
+  if(p >= r) return;
+   q = partition(a, p, r);
+   quickSortFn(a, p, q-1);
+   quickSortFn(a, q+1, r);
+}
+
+function partition(a, p, r){
+  let pivot = a[r], i = p;
+  for(let j=p;j<r;j++){
+    if(a[j] < pivot){
+      const tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+      i++;
+    }
+  }
+
+  const tmp = a[i];
+  a[i] = a[r];
+  a[r] = tmp;
+
+  return i;
+}
+
+const testArr = []
+let i = 0
+while (i < 100) {
+    testArr.push(Math.floor(Math.random() * 1000))
+    i++
+}
+
+quickSort(testArr)
+console.log(testArr)
+
+</script>

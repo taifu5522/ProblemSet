@@ -1,0 +1,47 @@
+<script>
+
+function twoPointsSearch(a, value){
+  const start = Date.now();
+  let low = 0;
+  let high = a.length - 1;
+
+  while(low <= high){
+    let mid = Math.floor(low + (high - low) / 2);
+    if(a[mid] === value){
+      console.log(`二分查找耗费时间：${Date.now() - start}ms`)
+      return mid;
+    }else if(a[mid] < value){
+      low = mid + 1;
+    }else{
+      high = mid - 1;
+    }
+  }
+
+  console.log(`二分查找耗费时间：${Date.now() - start}ms`)
+  return -1;
+}
+
+function search(a, value){
+  let i = 0, start = Date.now();
+  while(i < a.length){
+    const item = a[i];
+    if(a[i] === value){
+      console.log(`遍历查找耗费时间：${Date.now() - start}ms`)
+      return i
+    }
+    i++;
+  }
+  console.log(`遍历查找耗费时间：${Date.now() - start}ms`)
+  return -1;
+}
+
+let arr = []
+let i = 0;
+while(i < 100000000){
+  arr.push(i++);
+}
+
+console.log(twoPointsSearch(arr, 52335126));
+console.log(search(arr, 52335126));
+
+</script>
